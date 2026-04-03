@@ -30,7 +30,6 @@ import {
 const router = express.Router();
 
 // ── Dual auth middleware (JWT or ephemeral token for <img> src) ─────────────
-
 function authFromQuery(req: Request, res: Response, next: NextFunction) {
   const queryToken = req.query.token as string | undefined;
   if (queryToken) {
@@ -186,7 +185,6 @@ router.get('/trips/:tripId/album-links', authenticate, (req: Request, res: Respo
   if (!canAccessTrip(req.params.tripId, authReq.user.id)) return res.status(404).json({ error: 'Trip not found' });
   res.json({ links: listAlbumLinks(req.params.tripId) });
 });
-
 router.post('/trips/:tripId/album-links', authenticate, async (req: Request, res: Response) => {
   const authReq = req as AuthRequest;
   const { tripId } = req.params;
