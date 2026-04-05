@@ -550,7 +550,34 @@ function runMigrations(db: Database.Database): void {
         );
       `);
     },
-    // Migration 69: Normalized per-user per-channel notification preferences
+    // Migration 69: Place region cache for sub-national Atlas regions
+    () => {
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS place_regions (
+          place_id INTEGER PRIMARY KEY REFERENCES places(id) ON DELETE CASCADE,
+          country_code TEXT NOT NULL,
+          region_code TEXT NOT NULL,
+          region_name TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_place_regions_country ON place_regions(country_code);
+        CREATE INDEX IF NOT EXISTS idx_place_regions_region ON place_regions(region_code);
+      `);
+    },
+    () => {
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS visited_regions (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+          region_code TEXT NOT NULL,
+          region_name TEXT NOT NULL,
+          country_code TEXT NOT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          UNIQUE(user_id, region_code)
+        );
+        CREATE INDEX IF NOT EXISTS idx_visited_regions_country ON visited_regions(country_code);
+      `);
+    },
+    // Migration 71: Normalized per-user per-channel notification preferences
     () => {
       db.exec(`
         CREATE TABLE IF NOT EXISTS notification_channel_preferences (
@@ -605,7 +632,7 @@ function runMigrations(db: Database.Database): void {
           SELECT 'notification_channels', value FROM app_settings WHERE key = 'notification_channel';
       `);
     },
-    // Migration 70: Drop the old notification_preferences table (data migrated to notification_channel_preferences in migration 69)
+    // Migration 72: Drop the old notification_preferences table (data migrated to notification_channel_preferences in migration 71)
     () => {
       db.exec('DROP TABLE IF EXISTS notification_preferences;');
     },
