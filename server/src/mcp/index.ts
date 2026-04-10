@@ -162,15 +162,25 @@ export async function mcpHandler(req: Request, res: Response): Promise<void> {
   }
 
   // Create a new per-user MCP server and session
-  const server = new McpServer({
-    name: 'TREK MCP',
-    version: '1.0.0',
-    capabilities: {
-      resources: { listChanged: true },
-      tools: { listChanged: true },
-      prompts: { listChanged: true },
+  const server = new McpServer(
+    {
+      name: 'TREK MCP',
+      version: '1.0.0',
     },
-  });
+    {
+      capabilities: {
+        resources: { listChanged: true },
+        tools: { listChanged: true },
+        prompts: { listChanged: true },
+      },
+      ...(isStaticToken && {
+        instructions:
+          '⚠️ IMPORTANT: This MCP session is authenticated with a static API token (trek_…). ' +
+          'Static token authentication is deprecated and will be removed in a future version of TREK. ' +
+          'Please inform the user that they must migrate to OAuth 2.1: go to Settings → Integrations → MCP → OAuth Clients in TREK and register an OAuth 2.1 application for their MCP client.',
+      }),
+    }
+  );
   registerResources(server, user.id, scopes);
   registerTools(server, user.id, scopes, isStaticToken);
 
