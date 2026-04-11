@@ -77,7 +77,8 @@
 - **Dashboard Widgets** — Currency converter and timezone clock, toggleable per user
 
 ### AI / MCP Integration
-- **MCP Server** — Built-in [Model Context Protocol](MCP.md) server exposes 80+ tools and 27 resources so AI assistants (Claude, Cursor, etc.) can read and modify your trips
+- **MCP Server** — Built-in [Model Context Protocol](MCP.md) server with OAuth 2.1 authentication exposes 80+ tools and 27 resources so AI assistants (Claude, Cursor, etc.) can read and modify your trips
+- **Granular Scopes** — 24 OAuth scopes across 13 permission groups let you control exactly what data your AI client can access
 - **Full Trip Automation** — AI can create trips, plan itineraries, build packing lists, manage budgets, send collab messages, mark countries visited, and more in a single conversation
 - **Prompts** — Pre-built `trip-summary`, `packing-list`, and `budget-overview` prompts give AI clients instant structured context
 - **Addon-Aware** — Atlas, Collab, and Vacay features are exposed automatically when those addons are enabled
@@ -97,7 +98,7 @@
 - **PWA**: vite-plugin-pwa + Workbox
 - **Real-Time**: WebSocket (`ws`)
 - **State**: Zustand
-- **Auth**: JWT + OIDC + TOTP (MFA)
+- **Auth**: JWT + OAuth 2.1 + OIDC + TOTP (MFA)
 - **Maps**: Leaflet + react-leaflet-cluster + Google Places API (optional)
 - **Weather**: Open-Meteo API (free, no key required)
 - **Icons**: lucide-react
