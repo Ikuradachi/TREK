@@ -261,6 +261,7 @@ export function syncTripPlaces(journeyId: number, tripId: number, authorId: numb
 
   for (const place of places) {
     if (existingPlaceIds.has(place.id)) continue;
+    existingPlaceIds.add(place.id);
 
     const entryDate = place.day_date || new Date().toISOString().split('T')[0];
     const entryTime = place.assignment_time || place.place_time || null;
