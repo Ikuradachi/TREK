@@ -297,12 +297,12 @@ export async function downloadJourneyBookPDF(journey: JourneyDetail) {
   card.style.cssText = 'width:100%;max-width:1100px;height:95vh;background:#fff;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.35);'
 
   const header = document.createElement('div')
-  header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid #e4e4e7;flex-shrink:0;background:#0f172a;'
+  header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 16px;border-bottom:1px solid #e4e4e7;flex-shrink:0;background:#0f172a;'
   header.innerHTML = `
     <span style="font-size:12px;color:rgba(255,255,255,0.45);font-weight:500;letter-spacing:0.03em">${esc(journey.title)} &middot; ${totalPages} pages</span>
     <div style="display:flex;align-items:center;gap:8px">
-      <button id="journey-pdf-save" style="padding:7px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:none;background:#fff;color:#0f172a;">Save as PDF</button>
-      <button id="journey-pdf-close" style="padding:7px 12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);">Close</button>
+      <button id="journey-pdf-save" style="min-height:44px;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;border:none;background:#fff;color:#0f172a;">Save as PDF</button>
+      <button id="journey-pdf-close" style="min-height:44px;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);">Close</button>
     </div>
   `
 
