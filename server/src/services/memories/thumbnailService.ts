@@ -27,14 +27,17 @@ export async function ensureLocalThumbnail(
       const meta = await sharp(thumbAbs).metadata()
       return { thumbnailRelPath: thumbRel, width: meta.width ?? 0, height: meta.height ?? 0 }
     }
-  } catch { /* regenerate */ }
 
-  await fs.mkdir(path.dirname(thumbAbs), { recursive: true })
-  await sharp(originalAbs)
-    .rotate()
-    .resize({ width: THUMB_MAX, height: THUMB_MAX, fit: 'inside', withoutEnlargement: true })
-    .webp({ quality: THUMB_QUALITY })
-    .toFile(thumbAbs)
-  const meta = await sharp(thumbAbs).metadata()
-  return { thumbnailRelPath: thumbRel, width: meta.width ?? 0, height: meta.height ?? 0 }
+    await fs.mkdir(path.dirname(thumbAbs), { recursive: true })
+    await sharp(originalAbs)
+      .rotate()
+      .resize({ width: THUMB_MAX, height: THUMB_MAX, fit: 'inside', withoutEnlargement: true })
+      .webp({ quality: THUMB_QUALITY })
+      .toFile(thumbAbs)
+    const meta = await sharp(thumbAbs).metadata()
+    return { thumbnailRelPath: thumbRel, width: meta.width ?? 0, height: meta.height ?? 0 }
+  } catch {
+    // Unsupported format, corrupt file, etc. — fall back to original in caller.
+    return null
+  }
 }
